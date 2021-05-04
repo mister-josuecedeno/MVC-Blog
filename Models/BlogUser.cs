@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,5 +26,14 @@ namespace MVC_Blog.Models
 
         // public byte[] ImageData { get; set; }
         // public string ContentType { get; set; }
+
+        [NotMapped]
+        public string FullName {
+            get 
+            {
+                // string interpolation
+                return $"{FirstName} {LastName}";
+            }  
+        }
     }
 }
