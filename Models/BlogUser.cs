@@ -24,8 +24,8 @@ namespace MVC_Blog.Models
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
 
-        // public byte[] ImageData { get; set; }
-        // public string ContentType { get; set; }
+        public byte[] ImageData { get; set; }
+        public string ContentType { get; set; }
 
         [NotMapped]
         public string FullName {

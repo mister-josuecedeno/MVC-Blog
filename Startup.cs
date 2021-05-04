@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC_Blog.Data;
 using MVC_Blog.Models;
+using MVC_Blog.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,8 +46,8 @@ namespace MVC_Blog
             
             services.AddRazorPages();
 
-            // Add image service
-            // services.AddScoped<>();
+            // Add file/image service
+            services.AddScoped<IFileService, BasicFileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
