@@ -110,7 +110,7 @@ namespace MVC_Blog.Areas.Identity.Pages.Account
                     ImageData = (await _imageService.EncodeFileAsync(Input.ImageFile)) ??
                                  await _imageService.EncodeFileAsync(_configuration["DefaultUserImage"]),
                     ContentType = Input.ImageFile is null ? 
-                        Path.GetExtension(_configuration["DefaultUserImage"]) : 
+                        _configuration["DefaultUserImage"].Split('.')[1] : 
                         _imageService.ContentType(Input.ImageFile)
                 };
                 

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MVC_Blog.Models;
+using MVC_Blog.Services;
 
 namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
 {
@@ -14,16 +16,19 @@ namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<BlogUser> _userManager;
         private readonly SignInManager<BlogUser> _signInManager;
+        private readonly IFileService _fileService;
 
         public IndexModel(
             UserManager<BlogUser> userManager,
-            SignInManager<BlogUser> signInManager)
+            SignInManager<BlogUser> signInManager, IFileService fileService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _fileService = fileService;
         }
 
         public string Username { get; set; }
+        public string CurrentImage { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -38,8 +43,11 @@ namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
             public string DisplayName { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Profile Image")]
+            public IFormFile NewImage { get; set; }
         }
 
         private async Task LoadAsync(BlogUser user)
@@ -48,6 +56,8 @@ namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
+            CurrentImage = _fileService.DecodeImage(user.ImageData, user.ContentType);
+             
 
             Input = new InputModel
             {
@@ -93,11 +103,26 @@ namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            bool hasChanged = false;
+
             // Store display name
             if (user.DisplayName != Input.DisplayName)
             {
                 // Store the new name
                 user.DisplayName = Input.DisplayName;
+                hasChanged = true;
+            }
+
+            // Store new image
+            if (Input.NewImage is not null)
+            {
+                user.ImageData = await _fileService.EncodeFileAsync(Input.NewImage);
+                user.ContentType = _fileService.ContentType(Input.NewImage);
+                hasChanged = true;
+            }
+
+            if(hasChanged)
+            {
                 await _userManager.UpdateAsync(user);
             }
 

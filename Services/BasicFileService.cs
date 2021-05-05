@@ -13,7 +13,7 @@ namespace MVC_Blog.Services
         
         public string ContentType(IFormFile file)
         {
-            return file?.ContentType;
+            return file?.ContentType.Split('/')[1];
         }
 
         public string DecodeImage(byte[] data, string type)
