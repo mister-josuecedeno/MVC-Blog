@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +32,11 @@ namespace MVC_Blog.Models
         [Display(Name = "Blog Image")]
         public byte[] BlogImage { get; set; }
         public string ContentType { get; set; }
+
+        // Image File, if you wantto include in the bind
+        [NotMapped]
+        [Display(Name = "Image File")]
+        public IFormFile ImageFile { get; set; }
 
         // Navigational Properties
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();

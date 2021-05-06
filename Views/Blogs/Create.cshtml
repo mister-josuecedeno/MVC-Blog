@@ -1,4 +1,5 @@
-﻿@model MVC_Blog.Models.Blog
+﻿@using MVC_Blog.Models
+@model Blog
 
 @{
     ViewData["Title"] = "Create";
@@ -26,23 +27,11 @@
             <!-- ADD Blog Image -->
             <div class="form-group">
                 <label asp-for="BlogImage"></label>
-                <input type="file" asp-for="BlogImage" class="form-control-file" />
+                <input type="file" asp-for="BlogImage" class="form-control" />
                 <span asp-validation-for="BlogImage" class="text-danger"></span>
             </div>
 
-            @*
-        <!--REMOVE Dates-->
-        <div class="form-group">
-            <label asp-for="Created" class="control-label"></label>
-            <input asp-for="Created" class="form-control" />
-            <span asp-validation-for="Created" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Updated" class="control-label"></label>
-            <input asp-for="Updated" class="form-control" />
-            <span asp-validation-for="Updated" class="text-danger"></span>
-        </div>*@
-
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

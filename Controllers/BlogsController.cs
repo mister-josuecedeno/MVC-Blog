@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MVC_Blog.Data;
 using MVC_Blog.Models;
 using MVC_Blog.Services;
@@ -16,11 +17,13 @@ namespace MVC_Blog.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IFileService _fileService;
+        private readonly IConfiguration _configuration;
 
-        public BlogsController(ApplicationDbContext context, IFileService fileService)
+        public BlogsController(ApplicationDbContext context, IFileService fileService, IConfiguration configuration)
         {
             _context = context;
             _fileService = fileService;
+            _configuration = configuration;
         }
 
         // GET: Blogs
@@ -58,21 +61,27 @@ namespace MVC_Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Created,Updated")] Blog blog, IFormFile BlogImage)
+        public async Task<IActionResult> Create([Bind("Name,Description")] Blog blog, IFormFile BlogImage)
         {
             if (ModelState.IsValid)
             {
-                // Add images to the Blog object using the interface
-                blog.ContentType = _fileService.ContentType(BlogImage);
-                blog.BlogImage = await _fileService.EncodeFileAsync(BlogImage);
+                // Add Default Image (and ContentType)
+                blog.BlogImage = (await _fileService.EncodeFileAsync(BlogImage) ??
+                                  await _fileService.EncodeFileAsync(_configuration["DefaultBlogImage"]));
 
-                // Add date programmatically
+                blog.ContentType = (_fileService.ContentType(BlogImage) ??
+                                    _configuration["DefaultBlogImage"].Split('.')[1]);
+
+
+                // Add date programmatically (only need Created)
                 blog.Created = DateTime.Now;
-                blog.Updated = DateTime.Now;
+
+                
 
                 _context.Add(blog);
 
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(blog);
