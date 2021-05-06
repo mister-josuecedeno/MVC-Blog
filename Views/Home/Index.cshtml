@@ -13,6 +13,7 @@
 
             <div class="post-preview">
                 <img id="blogImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(blog.BlogImage, blog.ContentType)" />
+                <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read Posts</a>
                 <a href="post.html">
                     <h2 class="post-title">@blog.Name</h2>
                     <h3 class="post-subtitle">@blog.Description</h3>

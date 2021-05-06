@@ -1,7 +1,9 @@
-﻿using MVC_Blog.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using MVC_Blog.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +38,14 @@ namespace MVC_Blog.Models
         [Required]
         [Display(Name = "Publish State")]
         public PublishState PublishState { get; set; }
+
+        // Add Image
+        public byte[] ImageData { get; set; }
+        public string ContentType { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Post Image")]
+        public IFormFile ImageFile { get; set; }
 
         // Navigation Properties
         public virtual Blog Blog { get; set; }
