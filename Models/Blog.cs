@@ -26,6 +26,11 @@ namespace MVC_Blog.Models
         [Display(Name = "Updated Date")]
         public DateTime? Updated { get; set; }
 
+        // Blog Image
+        [Display(Name = "Blog Image")]
+        public byte[] BlogImage { get; set; }
+        public string ContentType { get; set; }
+
         // Navigational Properties
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     }

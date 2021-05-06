@@ -1,8 +1,29 @@
-﻿@{
+﻿@model IEnumerable<Blog>
+@inject IFileService _fileService
+@using MVC_Blog.Services 
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        @foreach (var blog in Model)
+        {
+
+            <div class="post-preview">
+                <img id="blogImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(blog.BlogImage, blog.ContentType)" />
+                <a href="post.html">
+                    <h2 class="post-title">@blog.Name</h2>
+                    <h3 class="post-subtitle">@blog.Description</h3>
+                </a>
+                <p class="post-meta">
+                    Posted by
+                    Josue Cedeno
+                    on @blog.Created.ToString("MMM dd, yyyy")
+                </p>
+            </div>
+
+        }
+    </div>
 </div>

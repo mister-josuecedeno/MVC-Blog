@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MVC_Blog.Data;
 using MVC_Blog.Models;
 using System;
 using System.Collections.Generic;
@@ -12,15 +14,18 @@ namespace MVC_Blog.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var allBlogs = await _context.Blogs.ToListAsync();
+            return View(allBlogs);
         }
 
         public IActionResult Privacy()
