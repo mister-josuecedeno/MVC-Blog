@@ -6,25 +6,47 @@
     ViewData["Title"] = "Landing Page";
 }
 
-<div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
-        @foreach (var post in Model)
-        {
-
-            <div class="post-preview">
-                <img id="blogImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(post.ImageData, post.ContentType)" />
-                <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">Read Full Post</a>
-                <a href="post.html">
-                    <h2 class="post-title">@post.Title</h2>
-                    <h3 class="post-subtitle">@post.Abstract</h3>
-                </a>
-                <p class="post-meta">
-                    Posted by
-                    Josue Cedeno
-                    on @post.Created.ToString("MMM dd, yyyy")
-                </p>
+<header class="masthead" style="background-image: url('/img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>Josue's Blog</h1>
+                    <span class="subheading">Helping Coders One Line At A Time</span>
+                </div>
             </div>
-
-        }
+        </div>
     </div>
-</div>
+</header>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            @foreach (var post in Model)
+            {
+
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <img id="postImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(post.ImageData, post.ContentType)" />
+                        <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">Read Full Post</a>
+                    </div>
+                    <div class="col col-md-8">
+                        <a href="post.html">
+                            <h2 class="post-title">@post.Title</h2>
+                            <h3 class="post-subtitle">@post.Abstract</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            Josue Cedeno
+                            on @post.Created.ToString("MMM dd, yyyy")
+                        </p>
+                    </div>
+                </div>
+                <hr />
+
+            }
+        </div>
+    </div>
+ </div>
