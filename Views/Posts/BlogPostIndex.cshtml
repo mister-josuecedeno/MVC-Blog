@@ -33,7 +33,7 @@
                         <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">Read Full Post</a>
                     </div>
                     <div class="col col-md-8">
-                        <a href="post.html">
+                        <a asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">
                             <h2 class="post-title">@post.Title</h2>
                             <h3 class="post-subtitle">@post.Abstract</h3>
                         </a>

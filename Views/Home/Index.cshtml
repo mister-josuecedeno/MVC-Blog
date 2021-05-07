@@ -35,7 +35,7 @@
                             <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read Posts</a>
                         </div>
                         <div class="col col-md-8">
-                            <a href="post.html">
+                            <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">
                                 <h2 class="post-title">@blog.Name</h2>
                                 <h3 class="post-subtitle">@blog.Description</h3>
                             </a>

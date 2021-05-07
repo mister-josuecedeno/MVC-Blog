@@ -48,6 +48,9 @@ namespace MVC_Blog
 
             // Add file/image service
             services.AddScoped<IFileService, BasicFileService>();
+
+            // Add Data Service (for seeding users)
+            services.AddScoped<DataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
