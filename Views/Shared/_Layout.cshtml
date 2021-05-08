@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Josue Cedeno - Blog</title>
+    <title>Josue's IT Blog - @ViewData["Title"]</title>
 
     <link href="~/img/favicon.ico" rel="icon" />
     <!-- <link rel="icon" type="image/x-icon" href="assets/favicon.ico" /> -->
@@ -35,8 +35,8 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                    
-                    
+
+
 
                     @if (User.IsInRole("Administrator"))
                     {
@@ -47,26 +47,30 @@
             </div>
         </div>
     </nav>
-    @*<!-- Page Header-->
-        <header class="masthead" style="background-image: url('/img/home-bg.jpg')">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-10 mx-auto">
-                        <div class="site-heading">
-                            <h1>Josue's Blog</h1>
-                            <span class="subheading">Helping Coders One Line At A Time</span>
-                        </div>
+    
+
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url(@ViewData["HeaderImage"])">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>@ViewData["HeaderText"]</h1>
+                        <span class="subheading">@ViewData["SubText"]</span>
                     </div>
                 </div>
             </div>
-        </header>
-    <!-- Main Content-->
-    <div class="container"></div>*@
+        </div>
+    </header>
     
-    @RenderBody()
+    <!-- Main Content-->
+    <div class="container">
+        @RenderBody()
+    </div>
 
     <hr />
+
     <!-- Footer-->
     <footer>
         <div class="container">

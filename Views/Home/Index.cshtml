@@ -6,51 +6,54 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!-- Page Header-->
-<header class="masthead" style="background-image: url('/img/home-bg.jpg')">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="site-heading">
-                    <h1>Josue's Blog</h1>
-                    <span class="subheading">Helping Coders One Line At A Time</span>
+@*
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/img/home-bg.jpg')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>Josue's Blog</h1>
+                        <span class="subheading">Helping Coders One Line At A Time</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            @foreach (var blog in Model)
-            {
+    <div class="container"></div>
 
-                <div class="post-preview">
+*@
 
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <img id="blogImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(blog.BlogImage, blog.ContentType)" />
-                            <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read Posts</a>
-                        </div>
-                        <div class="col col-md-8">
-                            <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">
-                                <h2 class="post-title">@blog.Name</h2>
-                                <h3 class="post-subtitle">@blog.Description</h3>
-                            </a>
-                            <p class="post-meta">
-                                Posted by
-                                Josue Cedeno
-                                on @blog.Created.ToString("MMM dd, yyyy")
-                            </p>
-                        </div>
+<div class="row">
+    <div class="col">
+        @foreach (var blog in Model)
+        {
+
+            <div class="post-preview">
+
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <img id="blogImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(blog.BlogImage, blog.ContentType)" />
+                        <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read Posts</a>
                     </div>
-                    <hr />
-
+                    <div class="col col-md-8">
+                        <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">
+                            <h2 class="post-title">@blog.Name</h2>
+                            <h3 class="post-subtitle">@blog.Description</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            Josue Cedeno
+                            on @blog.Created.ToString("MMM dd, yyyy")
+                        </p>
+                    </div>
                 </div>
+                <hr />
 
-            }
-        </div>
+            </div>
+
+        }
     </div>
 </div>
