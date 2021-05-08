@@ -48,6 +48,15 @@ namespace MVC_Blog.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
+            // Default Post Page Image
+            var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultPostPageImage"]);
+            var DefaultContentType = _configuration["DefaultPostPageImage"].Split('.')[1];
+
+
+            ViewData["HeaderText"] = "Post Index";
+            ViewData["SubText"] = "Get Your Daily Posts";
+            ViewData["HeaderImage"] = _fileService.DecodeImage(DefaultImage, DefaultContentType);
+
             var applicationDbContext = _context.Posts.Include(p => p.Blog);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -63,10 +72,15 @@ namespace MVC_Blog.Controllers
             var post = await _context.Posts
                 .Include(p => p.Blog)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (post == null)
             {
                 return NotFound();
             }
+
+            ViewData["HeaderText"] = post.Title;
+            ViewData["SubText"] = post.Abstract;
+            ViewData["HeaderImage"] = _fileService.DecodeImage(post.ImageData, post.ContentType);
 
             return View(post);
         }

@@ -7,24 +7,27 @@
     ViewData["Title"] = "Details";
 }
 
-<header class="masthead" style="background-image: url('@_fileService.DecodeImage(Model.ImageData, Model.ContentType)')">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="site-heading">
-                    <h1>@Html.DisplayFor(model => model.Title)</h1>
-                    <h2 class="subheading">@Html.DisplayFor(model => model.Abstract)</h2>
-                    <span class="meta">
-                        Posted by
-                        Josue Cedeno
-                        on @Html.DisplayFor(model => model.Created)
-                    </span>
+@*
+    <header class="masthead" style="background-image: url('@_fileService.DecodeImage(Model.ImageData, Model.ContentType)')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>@Html.DisplayFor(model => model.Title)</h1>
+                        <h2 class="subheading">@Html.DisplayFor(model => model.Abstract)</h2>
+                        <span class="meta">
+                            Posted by
+                            Josue Cedeno
+                            on @Html.DisplayFor(model => model.Created)
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
+
+*@
 
 <article>
     <div class="container">
