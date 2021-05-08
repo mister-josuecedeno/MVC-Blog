@@ -33,8 +33,13 @@ namespace MVC_Blog.Controllers
                 return NotFound();
             }
 
+            var blog = _context.Blogs.Find(id);
             var blogPosts = await _context.Posts.Where(p => p.BlogId == id).ToListAsync();
-            
+
+            ViewData["HeaderText"] = blog.Name;
+            ViewData["SubText"] = blog.Description;
+            ViewData["HeaderImage"] = _fileService.DecodeImage(blog.BlogImage, blog.ContentType);
+
             // use an existing view to show the data
             return View(blogPosts);
         }
