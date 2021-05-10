@@ -6,6 +6,14 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-controller="Blogs" asp-action="Create">Create New</a>
+    </p>
+}
+
+
 <div class="row">
     <div class="col">
         @foreach (var blog in Model)
