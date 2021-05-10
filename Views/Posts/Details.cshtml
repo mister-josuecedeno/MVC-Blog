@@ -46,7 +46,7 @@
 
                 <form asp-action="Create" asp-controller="Comments" method="post">
                     <input type="hidden" name="PostId" value="@Model.Id" />
-                    <textarea name="Body" rows="10" class="form-control"></textarea>
+                    <textarea name="Body" rows="10" class="form-control" required></textarea>
                     <button type="submit" class="btn btn-dark btn-block btn-sm mb-5">Add Comment</button>
                 </form>
 
