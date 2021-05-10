@@ -1,40 +1,79 @@
 ﻿@using MVC_Blog.Services
 
 @model MVC_Blog.Models.Post
-@inject IFileService _fileService
+@inject MVC_Blog.Services.IFileService _fileService
+
 
 @{
     ViewData["Title"] = "Details";
 }
 
-@*
-    <header class="masthead" style="background-image: url('@_fileService.DecodeImage(Model.ImageData, Model.ContentType)')">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div class="site-heading">
-                        <h1>@Html.DisplayFor(model => model.Title)</h1>
-                        <h2 class="subheading">@Html.DisplayFor(model => model.Abstract)</h2>
-                        <span class="meta">
-                            Posted by
-                            Josue Cedeno
-                            on @Html.DisplayFor(model => model.Created)
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-*@
-
 <article>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="col">
                 @Html.Raw(Model.Content)
             </div>
         </div>
     </div>
 </article>
+
+<hr />
+
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            <h3>Comments</h3>
+            <div>@Model.Comments.Count Comment/s</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-dark btn-block btn-sm"
+                   asp-area="Identity"
+                   asp-page="/Account/Login"
+                   asp-route-returnUrl="@Url.Action("Details", "Posts", new { id = Model.Id })">
+                    Login to add a comment
+                </a>
+            }
+            else
+            {
+                // Give logged in users the ability to add comments
+
+                <form asp-action="Create" asp-controller="Comments" method="post">
+                    <input type="hidden" name="PostId" value="@Model.Id" />
+                    <textarea name="Body" rows="10" class="form-control"></textarea>
+                    <button type="submit" class="btn btn-dark btn-block btn-sm mb-5">Add Comment</button>
+                </form>
+
+
+            }
+
+
+            @*Task - List of the current comments for this post*@
+
+            @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
+            {
+                <!-- Left-aligned -->
+                <div class="media">
+                    
+                    <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)"
+                         class="align-self-start mr-3"
+                         style="width:60px">
+                    
+                    <div class="media-body">
+                        <h4 class="mt-0 font-weight-bold">@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
+                        <p>@comment.Body</p>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+
+
+</div>

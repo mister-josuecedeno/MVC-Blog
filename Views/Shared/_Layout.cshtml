@@ -43,6 +43,7 @@
                         <li class="nav-item"><a class="nav-link" asp-controller="Blogs" asp-action="Create">Create Blog</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Posts" asp-action="Create">Create Post</a></li>
                     }
+                    
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -58,7 +59,8 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
                         <h1>@ViewData["HeaderText"]</h1>
-                        <span class="subheading">@ViewData["SubText"]</span>
+                        <div class="subheading">@ViewData["SubText"]</div>
+                        <div class="font-italic mt-3">@ViewData["AuthorText"]</div>
                     </div>
                 </div>
             </div>

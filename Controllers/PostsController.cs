@@ -71,6 +71,8 @@ namespace MVC_Blog.Controllers
 
             var post = await _context.Posts
                 .Include(p => p.Blog)
+                .Include(p => p.Comments)
+                .ThenInclude(c => c.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
             
             if (post == null)
@@ -80,6 +82,7 @@ namespace MVC_Blog.Controllers
 
             ViewData["HeaderText"] = post.Title;
             ViewData["SubText"] = post.Abstract;
+            ViewData["AuthorText"] = $"Created by Josue Cedeno on {post.Created.ToString("MMM dd, yyyy")}";
             ViewData["HeaderImage"] = _fileService.DecodeImage(post.ImageData, post.ContentType);
 
             return View(post);

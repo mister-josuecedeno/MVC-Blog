@@ -48,7 +48,11 @@ namespace MVC_Blog.Models
         public IFormFile ImageFile { get; set; }
 
         // Navigation Properties
+        // Parent
         public virtual Blog Blog { get; set; }
+
+        // Child
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 
 }
