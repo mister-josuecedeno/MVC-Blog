@@ -41,17 +41,17 @@
 
                         @if (User.IsInRole("Administrator"))
                         {
-                            <a class="btn btn-success text-decoration-none rounded"
+                            <a class="badge badge-success text-decoration-none rounded"
                                asp-action="Create"
                                asp-controller="Posts"
                                asp-route-blogId="@blog.Id">Create Post</a>
 
-                            <a class="btn btn-success text-decoration-none rounded"
+                            <a class="badge badge-success text-decoration-none rounded"
                                asp-action="Edit"
                                asp-controller="Blogs"
                                asp-route-id="@blog.Id">Edit Blog</a>
 
-                            <a class="btn btn-danger text-decoration-none rounded"
+                            <a class="badge badge-danger text-decoration-none rounded"
                                asp-action="Delete"
                                asp-controller="Blogs"
                                asp-route-id="@blog.Id">Delete Blog</a>
