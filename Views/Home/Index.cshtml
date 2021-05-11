@@ -9,7 +9,9 @@
 @if (User.IsInRole("Administrator"))
 {
     <p>
-        <a asp-controller="Blogs" asp-action="Create">Create New</a>
+        <a class="btn btn-success text-decoration-none rounded" 
+           asp-controller="Blogs" 
+           asp-action="Create"><i class="far fa-folder-open"></i> New Blog</a>
     </p>
 }
 
@@ -24,18 +26,37 @@
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <img id="blogImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(blog.BlogImage, blog.ContentType)" />
-                        <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read Posts</a>
+                        <a class="btn btn-dark btn-block mb-3" asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">Read Posts</a>
                     </div>
                     <div class="col col-md-8">
                         <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@blog.Id">
                             <h2 class="post-title">@blog.Name</h2>
-                            <h3 class="post-subtitle">@blog.Description</h3>
                         </a>
+                        <h3 class="post-subtitle">@blog.Description</h3>
                         <p class="post-meta">
                             Posted by
                             Josue Cedeno
                             on @blog.Created.ToString("MMM dd, yyyy")
                         </p>
+
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a class="btn btn-success text-decoration-none rounded"
+                               asp-action="Create"
+                               asp-controller="Posts"
+                               asp-route-blogId="@blog.Id">Create Post</a>
+
+                            <a class="btn btn-success text-decoration-none rounded"
+                               asp-action="Edit"
+                               asp-controller="Blogs"
+                               asp-route-id="@blog.Id">Edit Blog</a>
+
+                            <a class="btn btn-danger text-decoration-none rounded"
+                               asp-action="Delete"
+                               asp-controller="Blogs"
+                               asp-route-id="@blog.Id">Edit Blog</a>
+                        }
+
                     </div>
                 </div>
                 <hr />

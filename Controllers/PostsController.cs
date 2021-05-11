@@ -89,10 +89,28 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Posts/Create
-        public IActionResult Create()
+        
+        //public IActionResult Create()
+        //{
+        //    ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description");
+        //   return View();
+        //}
+
+        public IActionResult Create(int? blogId)
         {
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description");
-            return View();
+
+            var post = new Post();
+
+            if (blogId is null)
+            {
+                ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description");
+            }
+            else            
+            {
+                post.BlogId = (int)blogId;
+            };
+            
+            return View(post);
         }
 
         // POST: Posts/Create
