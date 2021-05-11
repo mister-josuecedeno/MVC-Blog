@@ -62,11 +62,11 @@
                 <div class="media">
                     
                     <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)"
-                         class="align-self-start mr-3"
+                         class="align-self-start mr-3 rounded-circle"
                          style="width:60px">
                     
                     <div class="media-body">
-                        <h4 class="mt-0 font-weight-bold">@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h4>
+                        <h5 class="mt-0 font-weight-bold">@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h5>
                         <p>@comment.Body</p>
                     </div>
                 </div>

@@ -76,8 +76,14 @@ namespace MVC_Blog.Controllers
 
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
+
+                // Get the slug
+                var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == comment.PostId);
+                var slug = post.Slug;
+
                 //return RedirectToAction(nameof(Index));
-                return RedirectToAction("Details","Posts", new { id = comment.PostId });
+                //return RedirectToAction("Details","Posts", new { id = comment.PostId });
+                return RedirectToAction("Details", "Posts", new { Slug = slug });
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", comment.AuthorId);
             ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);
