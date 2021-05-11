@@ -17,12 +17,14 @@ namespace MVC_Blog.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IFileService _fileService;
         private readonly IConfiguration _configuration;
+        private readonly BasicSlugService _slugService;
 
-        public PostsController(ApplicationDbContext context, IFileService fileService, IConfiguration configuration)
+        public PostsController(ApplicationDbContext context, IFileService fileService, IConfiguration configuration, BasicSlugService slugService)
         {
             _context = context;
             _fileService = fileService;
             _configuration = configuration;
+            _slugService = slugService;
         }
 
         // GET: Posts with BlogPostIndex = n
@@ -61,10 +63,37 @@ namespace MVC_Blog.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Posts/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Posts/Details/5 (COMMENT OUT)
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var post = await _context.Posts
+        //        .Include(p => p.Blog)
+        //        .Include(p => p.Comments)
+        //        .ThenInclude(c => c.Author)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+            
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    ViewData["HeaderText"] = post.Title;
+        //    ViewData["SubText"] = post.Abstract;
+        //    ViewData["AuthorText"] = $"Created by Josue Cedeno on {post.Created.ToString("MMM dd, yyyy")}";
+        //    ViewData["HeaderImage"] = _fileService.DecodeImage(post.ImageData, post.ContentType);
+
+        //    return View(post);
+        //}
+
+        // GET: Posts/Details/slug
+        public async Task<IActionResult> Details(string slug)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(slug))
             {
                 return NotFound();
             }
@@ -73,8 +102,8 @@ namespace MVC_Blog.Controllers
                 .Include(p => p.Blog)
                 .Include(p => p.Comments)
                 .ThenInclude(c => c.Author)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            
+                .FirstOrDefaultAsync(m => m.Slug == slug);
+
             if (post == null)
             {
                 return NotFound();
@@ -88,8 +117,9 @@ namespace MVC_Blog.Controllers
             return View(post);
         }
 
+
         // GET: Posts/Create
-        
+
         //public IActionResult Create()
         //{
         //    ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description");
@@ -123,14 +153,26 @@ namespace MVC_Blog.Controllers
             if (ModelState.IsValid)
             {
                 post.Created = DateTime.Now;
-                // Need Slug
-
+                
                 post.ImageData = (await _fileService.EncodeFileAsync(post.ImageFile)) ??
                                   await _fileService.EncodeFileAsync(_configuration["DefaultPostImage"]);
 
                 post.ContentType = (_fileService.ContentType(post.ImageFile) ??
                                     _configuration["DefaultPostImage"].Split('.')[1]);
 
+                // Need Slug (built from the title)
+                var slug = _slugService.UrlFriendly(post.Title);
+                if (!_slugService.IsUnique(slug))
+                {
+                    // Custom Error
+                    // Model error and inform the user
+                    ModelState.AddModelError("Title","Please provide a unique title");
+                    // ModelState.AddModelError("", "Error: Title not unique");
+
+                    return View(post);
+                }
+                
+                post.Slug = slug;
 
 
                 _context.Add(post);
@@ -163,7 +205,7 @@ namespace MVC_Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,Created,Updated,Slug,PublishState")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Created,Slug,Title,Abstract,Content,ImageFile,ImageData,PublishState")] Post post)
         {
             if (id != post.Id)
             {
@@ -174,6 +216,30 @@ namespace MVC_Blog.Controllers
             {
                 try
                 {
+                    // Slug
+                    var newSlug = _slugService.UrlFriendly(post.Title);
+                    if (post.Slug != newSlug)
+                    {
+                        if (!_slugService.IsUnique(newSlug))
+                        {
+                            ModelState.AddModelError("Title", "Please provide a unique title");
+                            return View(post);
+                        }
+
+                        post.Slug = newSlug;
+                    }
+
+                    // Image
+                    if (post.ImageFile is not null)
+                    {
+                        post.ImageData = await _fileService.EncodeFileAsync(post.ImageFile);
+                        post.ContentType = _fileService.ContentType(post.ImageFile);
+                    }
+
+                    // Updated
+                    post.Updated = DateTime.Now;
+
+
                     _context.Update(post);
                     await _context.SaveChangesAsync();
                 }

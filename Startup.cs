@@ -46,11 +46,14 @@ namespace MVC_Blog
             
             services.AddRazorPages();
 
-            // Add file/image service
+            // Add file/image service (interface + concrete class)
             services.AddScoped<IFileService, BasicFileService>();
 
             // Add Data Service (for seeding users)
             services.AddScoped<DataService>();
+
+            // Add Basic Slug Service
+            services.AddScoped<BasicSlugService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +80,11 @@ namespace MVC_Blog
 
             app.UseEndpoints(endpoints =>
             {
+            endpoints.MapControllerRoute(
+                name: "SEO_Route",
+                pattern: "JosuesPosts/SEOFriendly/{slug}",
+                defaults: new { controller = "Posts", action = "Details" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
