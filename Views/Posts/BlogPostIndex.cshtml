@@ -22,13 +22,13 @@
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <img id="postImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(post.ImageData, post.ContentType)" />
-                        <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">Read Full Post</a>
+                        <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">Read Full Post</a>
                     </div>
                     <div class="col col-md-8">
-                        <a asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">
+                        <a asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">
                             <h2 class="post-title">@post.Title</h2>
-                            <h3 class="post-subtitle">@post.Abstract</h3>
                         </a>
+                            <h3 class="post-subtitle">@post.Abstract</h3>
                         <p class="post-meta">
                             Posted by
                             Josue Cedeno
@@ -39,12 +39,12 @@
                         {
                             <a class="badge badge-success text-decoration-none rounded"
                                asp-action="Edit"
-                               asp-controller="Blogs"
+                               asp-controller="Posts"
                                asp-route-id="@post.Id">Edit Post</a>
 
                             <a class="badge badge-danger text-decoration-none rounded"
                                asp-action="Delete"
-                               asp-controller="Blogs"
+                               asp-controller="Posts"
                                asp-route-id="@post.Id">Delete Post</a>
                         }
 

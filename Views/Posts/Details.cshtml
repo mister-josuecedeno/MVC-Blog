@@ -33,7 +33,7 @@
         <div class="col">
             @if (!User.Identity.IsAuthenticated)
             {
-                <a class="btn btn-dark btn-block btn-sm"
+                <a class="btn btn-dark btn-block btn-sm mb-5"
                    asp-area="Identity"
                    asp-page="/Account/Login"
                    asp-route-returnUrl="@Url.Action("Details", "Posts", new { id = Model.Id })">
