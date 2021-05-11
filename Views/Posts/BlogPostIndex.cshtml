@@ -10,7 +10,7 @@
 @if (User.IsInRole("Administrator"))
 {
     <p>
-        <a asp-action="Create" asp-route-id="@Model.FirstOrDefault().BlogId">Create New</a>
+        <a  class="btn btn-success text-decoration-none rounded" asp-action="Create" asp-route-id="@Model.FirstOrDefault().BlogId">Create New</a>
     </p>
 }
 
@@ -34,6 +34,20 @@
                             Josue Cedeno
                             on @post.Created.ToString("MMM dd, yyyy")
                         </p>
+
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a class="badge badge-success text-decoration-none rounded"
+                               asp-action="Edit"
+                               asp-controller="Blogs"
+                               asp-route-id="@post.Id">Edit Post</a>
+
+                            <a class="badge badge-danger text-decoration-none rounded"
+                               asp-action="Delete"
+                               asp-controller="Blogs"
+                               asp-route-id="@post.Id">Delete Post</a>
+                        }
+
                     </div>
                 </div>
                 <hr />
