@@ -19,13 +19,15 @@ namespace MVC_Blog.Controllers
         private readonly IFileService _fileService;
         private readonly IConfiguration _configuration;
         private readonly BasicSlugService _slugService;
+        private readonly SearchService _searchService;
 
-        public PostsController(ApplicationDbContext context, IFileService fileService, IConfiguration configuration, BasicSlugService slugService)
+        public PostsController(ApplicationDbContext context, IFileService fileService, IConfiguration configuration, BasicSlugService slugService, SearchService searchService)
         {
             _context = context;
             _fileService = fileService;
             _configuration = configuration;
             _slugService = slugService;
+            _searchService = searchService;
         }
 
         // GET: Posts with BlogPostIndex = n AND page = n
@@ -149,6 +151,23 @@ namespace MVC_Blog.Controllers
             
             return View(post);
         }
+
+
+        // Search Index
+        //[HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchIndex(string searchString, int? page = 1)
+        {
+            ViewData["SearchString"] = searchString;
+            
+            // Step 1: Results from search string
+            var posts = _searchService.SearchContent(searchString);
+            var pageSize = 2;
+
+            return View(await posts.ToPagedListAsync(page, pageSize));
+
+        }
+
 
         // POST: Posts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.

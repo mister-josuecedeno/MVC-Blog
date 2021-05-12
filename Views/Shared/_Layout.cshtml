@@ -60,6 +60,12 @@
                         <h1>@ViewData["HeaderText"]</h1>
                         <div class="subheading">@ViewData["SubText"]</div>
                         <div class="font-italic mt-3">@ViewData["AuthorText"]</div>
+
+                        <!-- Search Form -->
+                        <form asp-action="SearchIndex" asp-controller="Posts">
+                            <input class="form-control" type="text" name="SearchString" placeholder="Enter search term" />
+                            <button class="btn btn-dark" type="submit">Search</button>
+                        </form>
                     </div>
                 </div>
             </div>
