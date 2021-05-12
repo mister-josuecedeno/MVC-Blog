@@ -58,6 +58,9 @@ namespace MVC_Blog
 
             // Add service using an existing interface
             services.AddScoped<IEmailSender, GmailEmailService>();
+
+            // Add a search service
+            services.AddScoped<SearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
