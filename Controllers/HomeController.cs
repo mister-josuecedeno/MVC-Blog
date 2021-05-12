@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace MVC_Blog.Controllers
 {
@@ -28,7 +29,7 @@ namespace MVC_Blog.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page = 1)
         {
             // Default Home Page Image
             var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultHomePageImage"]);
@@ -38,8 +39,12 @@ namespace MVC_Blog.Controllers
             ViewData["HeaderText"] = "Josue's Blog";
             ViewData["SubText"] = "Helping Coders One Line At A Time";
             ViewData["HeaderImage"] = _fileService.DecodeImage(DefaultImage, DefaultContentType);
+
+            //var pageNumber = page ?? 1;
+            var pageSize = 5;
             
-            var allBlogs = await _context.Blogs.ToListAsync();
+            var allBlogs = await _context.Blogs.OrderByDescending(b => b.Created)
+                                               .ToPagedListAsync(page, pageSize);
             return View(allBlogs);
         }
 

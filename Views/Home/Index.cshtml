@@ -1,6 +1,10 @@
-﻿@model IEnumerable<Blog>
-@inject IFileService _fileService
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
 @using MVC_Blog.Services
+@inject IFileService _fileService
+
+@model IPagedList<Blog>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -9,13 +13,13 @@
 @if (User.IsInRole("Administrator"))
 {
     <p>
-        <a class="btn btn-success text-decoration-none rounded" 
-           asp-controller="Blogs" 
+        <a class="btn btn-success text-decoration-none rounded"
+           asp-controller="Blogs"
            asp-action="Create"><i class="far fa-folder-open"></i> New Blog</a>
     </p>
 }
 
-
+<!-- Content -->
 <div class="row">
     <div class="col">
         @foreach (var blog in Model)
@@ -38,7 +42,7 @@
                             Josue Cedeno
                             on @blog.Created.ToString("MMM dd, yyyy")
                         </p>
-                        
+
 
                         @if (User.IsInRole("Administrator"))
                         {
@@ -65,5 +69,25 @@
             </div>
 
         }
+    </div>
+</div>
+
+
+<!-- Pagination -->
+<div class="row">
+    <div class="col h3">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </div>
+</div>
+
+<!-- Paged List Pager-->
+<div class="row">
+    <div class="col">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+            new PagedListRenderOptions
+            {
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" }
+            })
     </div>
 </div>
