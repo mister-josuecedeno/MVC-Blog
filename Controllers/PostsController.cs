@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using MVC_Blog.Data;
 using MVC_Blog.Models;
 using MVC_Blog.Services;
+using X.PagedList;
 
 namespace MVC_Blog.Controllers
 {
@@ -27,8 +28,8 @@ namespace MVC_Blog.Controllers
             _slugService = slugService;
         }
 
-        // GET: Posts with BlogPostIndex = n
-        public async Task<ActionResult> BlogPostIndex(int? id)
+        // GET: Posts with BlogPostIndex = n AND page = n
+        public async Task<ActionResult> BlogPostIndex(int? id, int? page = 1)
         {
             if(id == null)
             {
@@ -36,11 +37,17 @@ namespace MVC_Blog.Controllers
             }
 
             var blog = _context.Blogs.Find(id);
-            var blogPosts = await _context.Posts.Where(p => p.BlogId == id).ToListAsync();
-
             ViewData["HeaderText"] = blog.Name;
             ViewData["SubText"] = blog.Description;
             ViewData["HeaderImage"] = _fileService.DecodeImage(blog.BlogImage, blog.ContentType);
+
+            //var pageNumber = page ?? 1;
+            var pageSize = 5;
+
+            // var blogPosts = await _context.Posts.Where(p => p.BlogId == id).ToListAsync();
+            var blogPosts = await _context.Posts.Where(p => p.BlogId == id)
+                                                .OrderByDescending(b => b.Created)
+                                                .ToPagedListAsync(page, pageSize);
 
             // use an existing view to show the data
             return View(blogPosts);

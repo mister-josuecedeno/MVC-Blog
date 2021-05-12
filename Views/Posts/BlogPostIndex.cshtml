@@ -1,6 +1,10 @@
-﻿@using MVC_Blog.Services
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@using MVC_Blog.Services
 @inject IFileService _fileService
-@model IEnumerable<Post>
+
+@model IPagedList<Post>
 
 @{
     ViewData["Title"] = "Landing Page";
@@ -10,48 +14,102 @@
 @if (User.IsInRole("Administrator"))
 {
     <p>
-        <a  class="btn btn-success text-decoration-none rounded" asp-action="Create" asp-route-id="@Model.FirstOrDefault()?.BlogId">Create New</a>
+        <a class="btn btn-success text-decoration-none rounded" asp-action="Create" asp-route-id="@Model.FirstOrDefault()?.BlogId">Create New</a>
     </p>
 }
 
+@* Add Pagination > 1 page *@
+@if (Model.PageCount > 1)
+{
+
+    <!-- Pagination -->
+    @*<div class="row">
+        <div class="col h4">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        </div>
+    </div>*@
+
+    <!-- Paged List Pager-->
+    @*<div>Blog Id = @Model.FirstOrDefault()?.BlogId</div>*@
+
     <div class="row">
-        <div class="col">
-            @foreach (var post in Model)
-            {
-
-                <div class="row">
-                    <div class="col-12 col-md-4">
-                        <img id="postImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(post.ImageData, post.ContentType)" />
-                        <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">Read Full Post</a>
-                    </div>
-                    <div class="col col-md-8">
-                        <a asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">
-                            <h2 class="post-title">@post.Title</h2>
-                        </a>
-                            <h3 class="post-subtitle">@post.Abstract</h3>
-                        <p class="post-meta">
-                            Posted by
-                            Josue Cedeno
-                            on @post.Created.ToString("MMM dd, yyyy")
-                        </p>
-
-                        @if (User.IsInRole("Administrator"))
-                        {
-                            <a class="badge badge-success text-decoration-none rounded"
-                               asp-action="Edit"
-                               asp-controller="Posts"
-                               asp-route-id="@post.Id">Edit Post</a>
-
-                            <a class="badge badge-danger text-decoration-none rounded"
-                               asp-action="Delete"
-                               asp-controller="Posts"
-                               asp-route-id="@post.Id">Delete Post</a>
-                        }
-
-                    </div>
-                </div>
-                <hr />
-
-            }
+        <div class="col mb-3">
+            @Html.PagedListPager(Model, page => Url.Action("BlogPostIndex", new { id = @Model.FirstOrDefault()?.BlogId, page = page }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
         </div>
     </div>
+
+}
+
+<!-- Content -->
+<div class="row">
+    <div class="col">
+        @foreach (var post in Model)
+        {
+
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <img id="postImage" class="card-img-top img-fluid" src="@_fileService.DecodeImage(post.ImageData, post.ContentType)" />
+                    <a class="btn btn-dark btn-block btn-sm" asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">Read Full Post</a>
+                </div>
+                <div class="col col-md-8">
+                    <a asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">
+                        <h2 class="post-title">@post.Title</h2>
+                    </a>
+                    <h3 class="post-subtitle">@post.Abstract</h3>
+                    <p class="post-meta">
+                        Posted by
+                        Josue Cedeno
+                        on @post.Created.ToString("MMM dd, yyyy")
+                    </p>
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a class="badge badge-success text-decoration-none rounded"
+                           asp-action="Edit"
+                           asp-controller="Posts"
+                           asp-route-id="@post.Id">Edit Post</a>
+
+                        <a class="badge badge-danger text-decoration-none rounded"
+                           asp-action="Delete"
+                           asp-controller="Posts"
+                           asp-route-id="@post.Id">Delete Post</a>
+                    }
+
+                </div>
+            </div>
+            <hr />
+
+        }
+    </div>
+</div>
+
+
+@* Add Pagination > 1 page *@
+@if (Model.PageCount > 1)
+{
+
+    <!-- Pagination -->
+    @*<div class="row">
+        <div class="col h4">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        </div>
+    </div>*@
+
+    <!-- Paged List Pager-->
+    <div class="row">
+        <div class="col">
+            @Html.PagedListPager(Model, page => Url.Action("BlogPostIndex", new { id = @Model.FirstOrDefault()?.BlogId, page = page }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
+        </div>
+    </div>
+
+}

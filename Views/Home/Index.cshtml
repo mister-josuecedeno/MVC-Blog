@@ -19,6 +19,34 @@
     </p>
 }
 
+
+@* Add Pagination > 1 page *@
+@if (Model.PageCount > 1)
+{
+
+    <!-- Pagination -->
+    @*<div class="row">
+            <div class="col h4">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            </div>
+        </div>*@
+
+    <!-- Paged List Pager-->
+    <div class="row">
+        <div class="col">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
+        </div>
+    </div>
+
+}
+
+
+
 <!-- Content -->
 <div class="row">
     <div class="col">
@@ -69,25 +97,36 @@
             </div>
 
         }
+
+
+
     </div>
 </div>
 
 
-<!-- Pagination -->
-<div class="row">
-    <div class="col h3">
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    </div>
-</div>
+@* Add Pagination > 1 page *@
+@if (Model.PageCount > 1)
+{
 
-<!-- Paged List Pager-->
-<div class="row">
-    <div class="col">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
-            new PagedListRenderOptions
-            {
-                LiElementClasses = new string[] { "page-item" },
-                PageClasses = new string[] { "page-link" }
-            })
+    <!-- Pagination -->
+    @*<div class="row">
+            <div class="col h4">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            </div>
+        </div>*@
+
+    <!-- Paged List Pager-->
+    <div class="row">
+        <div class="col">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
+        </div>
     </div>
-</div>
+
+}
+
+
