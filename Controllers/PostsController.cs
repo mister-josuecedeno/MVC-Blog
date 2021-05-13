@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -54,9 +55,10 @@ namespace MVC_Blog.Controllers
             // use an existing view to show the data
             return View(blogPosts);
         }
-        
-        
+
+
         // GET: Posts
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Index()
         {
             // Default Post Page Image
@@ -134,7 +136,7 @@ namespace MVC_Blog.Controllers
         //    ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description");
         //   return View();
         //}
-
+        [Authorize(Roles = "Administrator, Moderator")]
         public IActionResult Create(int? blogId)
         {
 
@@ -174,6 +176,7 @@ namespace MVC_Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Create([Bind("BlogId,Title,Abstract,Content,PublishState,ImageFile")] Post post)
         {
             if (ModelState.IsValid)
@@ -210,6 +213,7 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -231,6 +235,7 @@ namespace MVC_Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Created,Slug,Title,Abstract,Content,ImageFile,ImageData,PublishState")] Post post)
         {
             if (id != post.Id)
@@ -287,6 +292,7 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -308,6 +314,7 @@ namespace MVC_Blog.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var post = await _context.Posts.FindAsync(id);

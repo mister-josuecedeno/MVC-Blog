@@ -28,6 +28,7 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Blogs
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Blogs.ToListAsync());
@@ -57,6 +58,8 @@ namespace MVC_Blog.Controllers
         // [Authorize(Roles = "Moderator")]
         // [Authorize(Roles = "Administrator,Moderator")]
         // [AllowAnonymous] - open to everyone
+
+        [Authorize(Roles = "Administrator, Moderator")]
         public IActionResult Create()
         {
             return View();
@@ -67,6 +70,7 @@ namespace MVC_Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Create([Bind("Name,Description")] Blog blog, IFormFile BlogImage)
         {
             if (ModelState.IsValid)
@@ -95,6 +99,7 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Blogs/Edit/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -115,6 +120,7 @@ namespace MVC_Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Created,Updated,BlogImage,ContentType")] Blog blog, IFormFile newBlogImage)
         {
             if (id != blog.Id)
@@ -155,6 +161,7 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Blogs/Delete/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -175,6 +182,7 @@ namespace MVC_Blog.Controllers
         // POST: Blogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var blog = await _context.Blogs.FindAsync(id);
