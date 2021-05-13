@@ -155,7 +155,8 @@ namespace MVC_Blog.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Home");
             }
             return View(blog);
         }
@@ -188,7 +189,8 @@ namespace MVC_Blog.Controllers
             var blog = await _context.Blogs.FindAsync(id);
             _context.Blogs.Remove(blog);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool BlogExists(int id)
