@@ -45,7 +45,8 @@ namespace MVC_Blog.Services
             smtp.Connect(host, port, SecureSocketOptions.StartTls);
 
             var userName = _configuration["MailSettings:Mail"];
-            var password = _configuration["MailSettings:Password"];
+            //var password = _configuration["MailSettings:Password"];
+            var password = _configuration["MailSettingsPassword"];
 
             smtp.Authenticate(userName, password);
 

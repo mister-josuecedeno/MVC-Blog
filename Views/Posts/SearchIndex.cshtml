@@ -2,14 +2,45 @@
 @using X.PagedList.Mvc.Core
 @using X.PagedList.Web.Common
 @using MVC_Blog.Services
+@using Microsoft.Extensions.Configuration
 @inject IFileService _fileService
+@inject IConfiguration _configuration
 
 @model IPagedList<Post>
 
 @{
     ViewData["Title"] = "Landing Page";
+    ViewData["HeaderText"] = "Search Results";
+
+    var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultHomePageImage"]);
+    var DefaultContentType = _configuration["DefaultHomePageImage"].Split('.')[1];
+    ViewData["HeaderImage"] = _fileService.DecodeImage(DefaultImage, DefaultContentType);
 }
 
+@* Add Pagination > 1 page *@
+@if (Model.PageCount > 1)
+{
+
+    <!-- Pagination -->
+    @*<div class="row">
+            <div class="col h4">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            </div>
+        </div>*@
+
+    <!-- Paged List Pager-->
+    <div class="row">
+        <div class="col">
+            @Html.PagedListPager(Model, page => Url.Action("SearchIndex", new { page = page, searchString = ViewData["SearchString"] }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
+        </div>
+    </div>
+
+}
 
 @if (User.IsInRole("Administrator"))
 {
