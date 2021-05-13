@@ -62,12 +62,13 @@
                         <div class="font-italic mt-3">@ViewData["AuthorText"]</div>
 
                         <!-- Search Form -->
-                        <form class="form" asp-action="SearchIndex" asp-controller="Posts">
-                            <input class="form-control" type="text" name="SearchString" placeholder="Enter search term" />
-                            <button class="btn-sm btn-dark btn-block" type="submit">Search</button>
+                        <form class="form mt-5" asp-action="SearchIndex" asp-controller="Posts">
+                            <div class="input-group">
+                                <input class="form-control" type="search" name="SearchString" placeholder="Enter search term" />
+                                <button class="btn-sm btn-dark" type="submit"><i class="fas fa-search"></i></button>
+                            </div>
                         </form>
 
-                        
                     </div>
                 </div>
             </div>
