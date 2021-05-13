@@ -236,7 +236,7 @@ namespace MVC_Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator, Moderator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Created,Slug,Title,Abstract,Content,ImageFile,ImageData,PublishState")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ImageData,ContentType,BlogId,Created,Slug,Title,Abstract,Content,ImageFile,PublishState")] Post post)
         {
             if (id != post.Id)
             {
@@ -285,7 +285,8 @@ namespace MVC_Blog.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("BlogPostIndex", "Posts", new { id = post.BlogId });
             }
             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description", post.BlogId);
             return View(post);
