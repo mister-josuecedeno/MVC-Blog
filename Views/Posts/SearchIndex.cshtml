@@ -17,6 +17,14 @@
     ViewData["HeaderImage"] = _fileService.DecodeImage(DefaultImage, DefaultContentType);
 }
 
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a class="btn btn-outline-success text-decoration-none rounded" asp-action="Create" asp-route-id="@Model.FirstOrDefault()?.BlogId">Create New</a>
+    </p>
+}
+
+
 @* Add Pagination > 1 page *@
 @if (Model.PageCount > 1)
 {
@@ -42,12 +50,6 @@
 
 }
 
-@if (User.IsInRole("Administrator"))
-{
-    <p>
-        <a class="btn btn-success text-decoration-none rounded" asp-action="Create" asp-route-id="@Model.FirstOrDefault()?.BlogId">Create New</a>
-    </p>
-}
 
 
 <!-- Content -->
@@ -65,7 +67,7 @@
                     <a asp-controller="Posts" asp-action="Details" asp-route-slug="@post.Slug">
                         <h2 class="post-title">@post.Title</h2>
                     </a>
-                    <h3 class="post-subtitle">@post.Abstract</h3>
+                    <h3 class="post-subtitle font-weight-normal text-black-50">@post.Abstract</h3>
                     <p class="post-meta">
                         Posted by
                         Josue Cedeno

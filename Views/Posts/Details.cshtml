@@ -24,8 +24,14 @@
 
     <div class="row">
         <div class="col">
-            <h3>Comments</h3>
-            <div>@Model.Comments.Count Comment/s</div>
+            <div class="mb-2 p-0">
+                <small>
+                    @Model.Comments.Count @if (Model.Comments.Count > 1)
+                {<span>Comments</span>}
+                else
+                {<span>Comment</span>}
+                </small>
+            </div>
         </div>
     </div>
 
@@ -59,15 +65,15 @@
             @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
             {
                 <!-- Left-aligned -->
-                <div class="media">
+                <div class="media mb-3 bg-light p-2 shadow-sm">
                     
                     <img src="@_fileService.DecodeImage(comment.Author.ImageData, comment.Author.ContentType)"
                          class="align-self-start mr-3 rounded-circle"
                          style="width:60px">
                     
                     <div class="media-body">
-                        <h5 class="mt-0 font-weight-bold">@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h5>
-                        <p>@comment.Body</p>
+                        <h6 class="mt-0 font-weight-bold">@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h6>
+                        <span class="h6">@comment.Body</span>
                     </div>
                 </div>
 

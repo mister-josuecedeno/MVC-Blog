@@ -12,6 +12,8 @@ namespace MVC_Blog.Models
     public class Post
     {
         public int Id { get; set; }
+
+        [Display(Name = "Blog Id")]
         public int BlogId { get; set; }
 
         [Required]
