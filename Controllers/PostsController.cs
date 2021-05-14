@@ -156,8 +156,6 @@ namespace MVC_Blog.Controllers
 
 
         // Search Index
-        //[HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SearchIndex(string searchString, int? page = 1)
         {
             ViewData["SearchString"] = searchString;

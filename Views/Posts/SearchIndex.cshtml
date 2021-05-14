@@ -9,7 +9,7 @@
 @model IPagedList<Post>
 
 @{
-    ViewData["Title"] = "Landing Page";
+    ViewData["Title"] = "Search Results";
     ViewData["HeaderText"] = "Search Results";
 
     var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultHomePageImage"]);
