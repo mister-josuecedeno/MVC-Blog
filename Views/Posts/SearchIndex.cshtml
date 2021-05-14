@@ -20,7 +20,7 @@
 @if (User.IsInRole("Administrator"))
 {
     <p>
-        <a class="btn btn-outline-success text-decoration-none rounded" asp-action="Create" asp-route-id="@Model.FirstOrDefault()?.BlogId">Create New</a>
+        <a class="btn btn-outline-success text-decoration-none rounded" asp-action="Create" asp-route-id="@Model.FirstOrDefault()?.BlogId"><i class="fas fa-pencil-alt"></i> New Post</a>
     </p>
 }
 
