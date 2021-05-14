@@ -16,7 +16,10 @@
 }
 
 
+<h1>Create</h1>
 
+<h4>Post</h4>
+<hr />
 <div class="row">
     <div class="col">
         <form asp-action="Create" enctype="multipart/form-data">
@@ -71,7 +74,14 @@
 
 <div>
     @*How do I find the BlogId?*@
-    <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to List</a>
+    @if (Model.BlogId == 0)
+    {
+        <a asp-controller="Home" asp-action="Index">Return to Home Page</a>
+    }
+    else
+    {
+        <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to List</a>
+    }
 </div>
 
 @section Scripts {

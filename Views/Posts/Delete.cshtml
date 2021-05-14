@@ -76,6 +76,15 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
 
         @*<a asp-action="Index">Back to List</a>*@
-        <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to List</a>
+        @*<a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to List</a>*@
+
+        @if (Model.BlogId == 0)
+        {
+            <a asp-controller="Home" asp-action="Index">Return to Home Page</a>
+        }
+        else
+        {
+            <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to List</a>
+        }
     </form>
 </div>
