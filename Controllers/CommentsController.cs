@@ -12,6 +12,7 @@ using MVC_Blog.Models;
 
 namespace MVC_Blog.Controllers
 {
+    [Authorize]
     public class CommentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +25,6 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Comments
-        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Comments.Include(c => c.Author).Include(c => c.Moderator).Include(c => c.Post);
@@ -64,9 +64,10 @@ namespace MVC_Blog.Controllers
         // POST: Comments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Create([Bind("PostId,Body")] Comment comment)
         {
             // Removed
@@ -95,7 +96,7 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Comments/Edit/5
-        [Authorize(Roles = "Administrator, Moderator")]
+        //[Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -119,8 +120,8 @@ namespace MVC_Blog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator, Moderator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorId,ModeratorId,Body,Created,Moderated,ModeratedBody,ModerationType")] Comment comment)
+        //[Authorize(Roles = "Administrator, Moderator")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,AuthorId,ModeratorId,Body,Created,ModeratedBody,ModerationType")] Comment comment)
         {
             if (id != comment.Id)
             {
@@ -131,6 +132,22 @@ namespace MVC_Blog.Controllers
             {
                 try
                 {
+                    //var user = await _userManager.GetUserAsync(User);
+                    //string editNotice = $"[Edited by: {user.FullName} on: {DateTime.Now:MMM/dd/yyy}] ";
+                    comment.Updated = DateTime.Now; // Added Updated to Comment Model
+
+                    if (comment.ModeratedBody is not null)
+                    {
+                        //comment.ModeratedBody = editNotice + comment.ModeratedBody;
+                        comment.ModeratedBody = comment.ModeratedBody;
+                        comment.Moderated = DateTime.Now;
+                    }
+                    else
+                    {
+                        //comment.Body = editNotice + comment.Body;
+                        comment.Body = comment.Body;
+                    }
+
                     _context.Update(comment);
                     await _context.SaveChangesAsync();
                 }
@@ -145,7 +162,14 @@ namespace MVC_Blog.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Get the slug
+                var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == comment.PostId);
+                var slug = post.Slug;
+
+                // UPDATE - Redirect
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Posts", new { Slug = slug});
             }
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id", comment.AuthorId);
             ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);
@@ -154,7 +178,6 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Comments/Delete/5
-        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -178,7 +201,6 @@ namespace MVC_Blog.Controllers
         // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var comment = await _context.Comments.FindAsync(id);
