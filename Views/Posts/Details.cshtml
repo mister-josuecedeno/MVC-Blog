@@ -12,6 +12,22 @@
     ViewData["Title"] = "Details";
 }
 
+@if (User.IsInRole("Administrator"))
+{
+    <div class="container mb-3">
+        <a class="badge badge-success text-decoration-none rounded"
+           asp-action="Edit"
+           asp-controller="Posts"
+           asp-route-id="@Model.Id">Edit Post</a>
+
+        <a class="badge badge-danger text-decoration-none rounded"
+           asp-action="Delete"
+           asp-controller="Posts"
+           asp-route-id="@Model.Id">Delete Post</a>
+
+    </div>
+}
+
 <article>
     <div class="container">
         <div class="row">
@@ -32,15 +48,15 @@
             <div class="mb-2 p-0">
                 <small>
                     @Model.Comments.Count @if (Model.Comments.Count > 1)
-                {<span>Comments</span>}
-                else
-                {<span>Comment</span>}
+                    {<span>Comments</span>}
+                    else
+                    {<span>Comment</span>}
                 </small>
             </div>
         </div>
     </div>
 
-    
+
     <div class="row">
         <div class="col">
             @if (!User.Identity.IsAuthenticated)
@@ -79,17 +95,18 @@
 
                     <div class="media-body">
                         <h6 class="mt-0 font-weight-bold">@comment.Author.FullName <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small></h6>
-                        
+
                         <!-- Moderated vs Not Moderated -->
                         @if (comment.Moderated is null)
                         {
                             <span class="h6">
-                                @if(comment.Updated is not null) { <span>[Edited]</span> }
+                                @if (comment.Updated is not null)
+                                {<span>[Edited]</span>}
                                 @comment.Body
                             </span>
                         }
-                        else 
-                        { 
+                        else
+                        {
                             <span class="h6">@comment.ModeratedBody</span>
                             <div class="h6 text-black-50 mt-3">[Moderated -<em> @comment.ModerationType - No longer editable</em>]</div>
                         }
@@ -140,9 +157,9 @@
                                                     {
                                                         <div class="form-group">
                                                             <label asp-for="@comment.ModerationType" class="control-label"></label>
-                                                            
-                                                            
-                                                            
+
+
+
                                                             <select asp-for="@comment.ModerationType" class="form-control" asp-items="@Html.GetEnumSelectList<ModerationType>()"></select>
                                                             <span asp-validation-for="@comment.ModerationType" class="text-danger"></span>
                                                         </div>
@@ -161,9 +178,9 @@
                                                 <!-- Form End -->
                                             </div>
                                             @*<div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                
-                                            </div>*@
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                                </div>*@
                                         </div>
                                     </div>
                                 </div>
