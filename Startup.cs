@@ -93,7 +93,7 @@ namespace MVC_Blog
             {
             endpoints.MapControllerRoute(
                 name: "SEO_Route",
-                pattern: "JosuesPosts/SEOFriendly/{slug}",
+                pattern: "JosuesPosts/SEO/{slug}",
                 defaults: new { controller = "Posts", action = "Details" });
 
                 endpoints.MapControllerRoute(
