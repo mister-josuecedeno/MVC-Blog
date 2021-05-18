@@ -50,7 +50,7 @@
             </div>
         </div>
     </nav>
-    
+
 
     <!-- Page Header-->
     <header class="masthead" style="background-image: url(@ViewData["HeaderImage"])">
@@ -76,7 +76,7 @@
             </div>
         </div>
     </header>
-    
+
     <!-- Main Content-->
     <div class="container">
         @RenderBody()
@@ -128,7 +128,7 @@
             </div>
         </div>
     </footer>
-    
+
     <!-- Bootstrap core JS-->
     <script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -139,6 +139,19 @@
     <script>
         $(document).ready(function () {
             $('#Content').summernote();
+        });
+    </script>
+
+    <!-- Summer Note - Responsive image fix -->
+    <script>
+        $(document).ready(function () {
+            $("img").addClass("img-fluid");
+            $("img").css("max-width", "100%");
+            $("img").css("height", "auto");
+            $("img").css("width", "auto");
+            $("img").css("aspect-ratio", "auto");
+            $("img").parent("span").css("width", "auto");
+            $("img").parent("span").css("height", "auto");
         });
     </script>
 
