@@ -42,6 +42,14 @@ namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string DisplayName { get; set; }
 
+            [Display(Name = "First Name")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Last Name")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            public string LastName { get; set; }
+
             [Phone]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
@@ -62,6 +70,8 @@ namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 DisplayName = user.DisplayName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 PhoneNumber = phoneNumber
             };
         }
@@ -110,6 +120,22 @@ namespace MVC_Blog.Areas.Identity.Pages.Account.Manage
             {
                 // Store the new name
                 user.DisplayName = Input.DisplayName;
+                hasChanged = true;
+            }
+
+            // Store First Name
+            if (user.FirstName != Input.FirstName)
+            {
+                // Store the new name
+                user.FirstName = Input.FirstName;
+                hasChanged = true;
+            }
+
+            // Store Last Name
+            if (user.LastName != Input.LastName)
+            {
+                // Store the new name
+                user.LastName = Input.LastName;
                 hasChanged = true;
             }
 
