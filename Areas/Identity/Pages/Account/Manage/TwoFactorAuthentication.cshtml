@@ -1,8 +1,21 @@
 ﻿@page
 @model TwoFactorAuthenticationModel
+
+@using MVC_Blog.Services
+@using Microsoft.Extensions.Configuration
+@inject IFileService _fileService
+@inject IConfiguration _configuration
+
 @{
     ViewData["Title"] = "Two-factor authentication (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+
+    ViewData["HeaderText"] = "Your Account";
+    ViewData["SubText"] = "Two-factor authentication (2FA)";
+
+    var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultHomePageImage"]);
+    var DefaultContentType = _configuration["DefaultHomePageImage"].Split('.')[1];
+    ViewData["HeaderImage"] = _fileService.DecodeImage(DefaultImage, DefaultContentType);
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
