@@ -73,15 +73,15 @@
 </div>
 
 <div>
-    @*How do I find the BlogId?*@
-    @if (Model.BlogId == 0)
+    
+    <a asp-controller="Home" asp-action="Index">Home Page</a>
+    
+    @if (Model.BlogId > 0)
     {
-        <a asp-controller="Home" asp-action="Index">Return to Home Page</a>
+        <span> | </span>
+        <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to Post List</a>
     }
-    else
-    {
-        <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to List</a>
-    }
+    
 </div>
 
 @section Scripts {
