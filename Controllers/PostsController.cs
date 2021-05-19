@@ -48,9 +48,17 @@ namespace MVC_Blog.Controllers
             var pageSize = 5;
 
             // var blogPosts = await _context.Posts.Where(p => p.BlogId == id).ToListAsync();
-            var blogPosts = await _context.Posts.Where(p => p.BlogId == id)
+            var blogPosts = await _context.Posts.Where(p => p.BlogId == id && p.PublishState.Equals(Enums.PublishState.ProductionReady))
                                                 .OrderByDescending(b => b.Created)
                                                 .ToPagedListAsync(page, pageSize);
+
+            // Show everything for Admin/Moderators
+            if (User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+            {
+                blogPosts = await _context.Posts.Where(p => p.BlogId == id)
+                                                .OrderByDescending(b => b.Created)
+                                                .ToPagedListAsync(page, pageSize);
+            }
 
             // use an existing view to show the data
             return View(blogPosts);
@@ -113,7 +121,17 @@ namespace MVC_Blog.Controllers
                 .Include(p => p.Blog)
                 .Include(p => p.Comments)
                 .ThenInclude(c => c.Author)
+                .FirstOrDefaultAsync(m => m.Slug == slug && m.PublishState.Equals(Enums.PublishState.ProductionReady));
+
+            // Show everything for Admin/Moderators
+            if (User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+            {
+                post = await _context.Posts
+                .Include(p => p.Blog)
+                .Include(p => p.Comments)
+                .ThenInclude(c => c.Author)
                 .FirstOrDefaultAsync(m => m.Slug == slug);
+            }
 
             if (post == null)
             {
