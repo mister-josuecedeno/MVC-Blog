@@ -1,7 +1,19 @@
 ﻿@page
 @model LoginWith2faModel
+
+@using MVC_Blog.Services
+@using Microsoft.Extensions.Configuration
+@inject IFileService _fileService
+@inject IConfiguration _configuration
+
 @{
     ViewData["Title"] = "Two-factor authentication";
+
+    ViewData["HeaderText"] = "Two-factor authentication";
+
+    var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultHomePageImage"]);
+    var DefaultContentType = _configuration["DefaultHomePageImage"].Split('.')[1];
+    ViewData["HeaderImage"] = _fileService.DecodeImage(DefaultImage, DefaultContentType);
 }
 
 <h1>@ViewData["Title"]</h1>

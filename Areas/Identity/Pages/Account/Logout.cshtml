@@ -1,7 +1,19 @@
 ﻿@page
 @model LogoutModel
+
+@using MVC_Blog.Services
+@using Microsoft.Extensions.Configuration
+@inject IFileService _fileService
+@inject IConfiguration _configuration
+
 @{
     ViewData["Title"] = "Log out";
+
+    ViewData["HeaderText"] = "Log Out";
+
+    var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultHomePageImage"]);
+    var DefaultContentType = _configuration["DefaultHomePageImage"].Split('.')[1];
+    ViewData["HeaderImage"] = _fileService.DecodeImage(DefaultImage, DefaultContentType);
 }
 
 <header>

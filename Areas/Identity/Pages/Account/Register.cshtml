@@ -1,5 +1,6 @@
 ﻿@page
 @model RegisterModel
+
 @using MVC_Blog.Services
 @using Microsoft.Extensions.Configuration
 @inject IFileService _fileService
@@ -9,6 +10,7 @@
 @{
 
     ViewData["Title"] = "Register";
+
     ViewData["HeaderText"] = "Register User";
 
     var DefaultImage = await _fileService.EncodeFileAsync(_configuration["DefaultHomePageImage"]);
