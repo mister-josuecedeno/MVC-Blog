@@ -84,7 +84,8 @@
             @if (Model.BlogId > 0)
             {
                 @*<span> | </span>*@
-                <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to Post List</a>
+                <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to Post List</a> <span> | </span>
+                <a asp-controller="Posts" asp-action="Details" asp-route-slug="@Model.Slug">Back to Post</a>
             }
             
         </div>

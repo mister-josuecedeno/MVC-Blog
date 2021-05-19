@@ -73,17 +73,17 @@
 </div>
 
 <div>
-    
-    
+
+
     @if (Model.BlogId == 0)
     {
         <a asp-controller="Home" asp-action="Index">Return to Home Page</a>
     }
-    else 
+    else
     {
         <a asp-controller="Posts" asp-action="BlogPostIndex" asp-route-id="@Model.BlogId">Back to Post List</a>
     }
-    
+
 </div>
 
 @section Scripts {
