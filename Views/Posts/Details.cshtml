@@ -128,7 +128,7 @@
                             {
                                 <!-- Modal -->
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-outline-warning mt-3" data-toggle="modal" data-target="#edit-@comment.Id">
+                                <button type="button" class="btn btn-warning mt-3 rounded" data-toggle="modal" data-target="#edit-@comment.Id">
                                     Edit Comment
                                 </button>
 
@@ -157,7 +157,7 @@
 
                                                     <div class="form-group">
                                                         @*<label asp-for="@comment.Body" class="control-label"></label>*@
-                                                        <input asp-for="@comment.Body" class="form-control" />
+                                                        <input asp-for="@comment.Body" class="form-control" required />
                                                         <span asp-validation-for="@comment.Body" class="text-danger"></span>
                                                     </div>
 
@@ -180,7 +180,7 @@
                                                     }
 
                                                     <div class="form-group">
-                                                        <input type="submit" value="Save" class="btn btn-primary" />
+                                                        <input type="submit" value="Save" class="btn btn-dark rounded" />
                                                     </div>
                                                 </form>
                                                 <!-- Form End -->
