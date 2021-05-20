@@ -180,7 +180,7 @@ namespace MVC_Blog.Controllers
             
             // Step 1: Results from search string
             var posts = _searchService.SearchContent(searchString);
-            var pageSize = 5;
+            var pageSize = 4;
 
             return View(await posts.ToPagedListAsync(page, pageSize));
 
