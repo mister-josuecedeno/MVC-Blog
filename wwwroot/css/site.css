@@ -11,3 +11,9 @@ body {
 .page-link {
     color: #212121;
 }
+
+#profileImg {
+    min-height: 100px;
+    width: auto;
+    object-fit:cover;
+}
