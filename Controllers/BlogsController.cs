@@ -35,6 +35,7 @@ namespace MVC_Blog.Controllers
         }
 
         // GET: Blogs/Details/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
