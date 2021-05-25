@@ -6,8 +6,10 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        BlogUser blogUser = await UserManager.GetUserAsync(User);
+
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @User.Identity.Name!</a>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @blogUser.FullName</a>
         </li>
 
         <li class="nav-item p-0 pt-2">
