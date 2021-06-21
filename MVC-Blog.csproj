@@ -7,6 +7,10 @@
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\Josue Cedeno\Documents\projects\coder-foundry\apps\MVC-Blog\wwwroot\MVC-Blog.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="wwwroot\css\NewFolder\**" />
     <Content Remove="wwwroot\css\NewFolder\**" />

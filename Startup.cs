@@ -14,6 +14,7 @@ using MVC_Blog.Models;
 using MVC_Blog.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -70,6 +71,7 @@ namespace MVC_Blog
             // Add Swagger Service 
             services.AddSwaggerGen(c =>
             {
+                c.IncludeXmlComments($"{Directory.GetCurrentDirectory()}/wwwroot/MVC-Blog.xml", true);
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title = "Blog_API", 
                     Version = "v1", 

@@ -16,12 +16,19 @@ namespace MVC_Blog.Controllers.ApiControllers
     {
         private readonly ApplicationDbContext _context;
 
+        
         public PostsApiController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+
         // GET: api/PostsApi/5
+        /// <summary>
+        /// This method will get the most recent X number of blog posts.
+        /// </summary>
+        /// <param name="num">The number of blog posts returned</param>
+        /// <returns>The latest num number of blog posts ordered by date descending</returns>
         [HttpGet("/GetTopXPosts/{num}")]
         public async Task<ActionResult<IEnumerable<Post>>> GetTopXPosts(int num)
         {
@@ -90,7 +97,7 @@ namespace MVC_Blog.Controllers.ApiControllers
 
         // POST: api/PostsApi
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        //[HttpPost]
         //public async Task<ActionResult<Post>> PostPost(Post post)
         //{
         //    _context.Posts.Add(post);

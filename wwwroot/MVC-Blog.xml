@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MVC-Blog</name>
+    </assembly>
+    <members>
+        <member name="M:MVC_Blog.Controllers.ApiControllers.PostsApiController.GetTopXPosts(System.Int32)">
+            <summary>
+            This method will get the most recent X number of blog posts.
+            </summary>
+            <param name="num">The number of blog posts returned</param>
+            <returns>The latest num number of blog posts ordered by date descending</returns>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.Id">
+            <summary>
+            The primary key of the post
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.BlogId">
+            <summary>
+            This is the foreign key to the blog that is the parent to this post
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.Title">
+            <summary>
+            The title of the post
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.Abstract">
+            <summary>
+            A brief introduction for reader interest
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.Content">
+            <summary>
+            The main content of the post
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.Created">
+            <summary>
+            Date the post was created
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.Updated">
+            <summary>
+            Date value when the post was updated
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.Slug">
+            <summary>
+            The SEO friendly version of the post - using the title
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.PublishState">
+            <summary>
+            Whether the post should be published
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.ImageData">
+            <summary>
+            Image Data
+            </summary>
+        </member>
+        <member name="P:MVC_Blog.Models.Post.ContentType">
+            <summary>
+            Image file type
+            </summary>
+        </member>
+    </members>
+</doc>
