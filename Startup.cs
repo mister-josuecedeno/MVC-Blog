@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using MVC_Blog.Data;
 using MVC_Blog.Models;
 using MVC_Blog.Services;
@@ -65,6 +66,23 @@ namespace MVC_Blog
 
             // Add a search service
             services.AddScoped<SearchService>();
+
+            // Add Swagger Service 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "Blog_API", 
+                    Version = "v1", 
+                    Description = "Serving up blog data using .Net Core",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Josue Cedeno",
+                        Email = "josuecedeno@gmail.com",
+                        Url = new System.Uri("https://www.linkedin.com/in/josuecedeno/")
+                    }
+                });
+            
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +99,15 @@ namespace MVC_Blog
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Swagger Config
+            app.UseSwagger();
+            app.UseSwaggerUI(c => 
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TestAPI v1");
+                c.DocumentTitle = "MVC Blog Public API";
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
