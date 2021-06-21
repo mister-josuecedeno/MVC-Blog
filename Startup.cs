@@ -73,7 +73,7 @@ namespace MVC_Blog
             {
                 c.IncludeXmlComments($"{Directory.GetCurrentDirectory()}/wwwroot/MVC-Blog.xml", true);
                 c.SwaggerDoc("v1", new OpenApiInfo { 
-                    Title = "Blog_API", 
+                    Title = "MVC Blog API", 
                     Version = "v1", 
                     Description = "Serving up blog data using .Net Core",
                     Contact = new OpenApiContact
@@ -107,6 +107,8 @@ namespace MVC_Blog
             app.UseSwaggerUI(c => 
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "TestAPI v1");
+                c.InjectJavascript("/swagger/swagger.js");
+                c.InjectStylesheet("/swagger/swagger.css");
                 c.DocumentTitle = "MVC Blog Public API";
             });
 

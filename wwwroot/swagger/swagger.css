@@ -1,0 +1,16 @@
+﻿.swagger-ui .topbar {
+    background-color: grey;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label select {
+    border: unset;
+}
+
+.topbar-wrapper img {
+    content: url("/swagger/favicon.ico");
+    margin-right: 10px;
+}
+
+.topbar-wrapper .link:after{
+    content: " MVC Blog";
+}
