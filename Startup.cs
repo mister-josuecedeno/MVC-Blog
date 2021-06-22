@@ -41,6 +41,16 @@ namespace MVC_Blog
                 options.UseNpgsql(
                     Connection.GetConnectionString(Configuration)));
 
+            // CORS Policy (This is the MOST liberal)
+            // Enhancement - limit it to a white list
+            services.AddCors(options => 
+            {
+                options.AddPolicy("DefaultPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             // services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -101,6 +111,9 @@ namespace MVC_Blog
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // CORS Policy
+            app.UseCors("DefaultPolicy");
 
             // Swagger Config
             app.UseSwagger();
